@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favella Admin Console</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;700&family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="ambient ambient-left"></div>
+    <div class="ambient ambient-right"></div>
+
+    <main class="page">
+        <section id="loginScreen" class="welcome-shell">
+            <section class="hero-card">
+                <p class="eyebrow">Favella Restaurant</p>
+                <h1>Restaurant website for admin, waiters, service floor and live orders.</h1>
+                <p class="hero-text">Admin controls staff, tables and menu. Waiters see assigned tables and send orders fast. Cashier can close tickets and print receipts.</p>
+            </section>
+
+            <section class="login-card">
+                <div class="panel-heading">
+                    <div>
+                        <p class="section-tag">Access</p>
+                        <h2>Sign in</h2>
+                    </div>
+                    <span id="sessionBadge" class="pill muted">Ready</span>
+                </div>
+
+                <form id="loginForm" class="stack-form">
+                    <label>Username<input id="username" value="admin" required></label>
+                    <label>Password<input id="password" type="password" value="admin123" required></label>
+                    <button type="submit">Open Console</button>
+                </form>
+                <div class="credentials">
+                    <p><strong>Admin</strong> admin / admin123</p>
+                    <p><strong>Waiter</strong> waiter / waiter123</p>
+                    <p><strong>Cashier</strong> cashier / cashier123</p>
+                </div>
+                <p id="loginMessage" class="feedback"></p>
+            </section>
+        </section>
+
+        <section id="dashboard" class="dashboard-shell hidden">
+            <aside class="sidebar">
+                <div>
+                    <p class="eyebrow">Control Room</p>
+                    <h2>Favella</h2>
+                    <p id="sidebarIdentity" class="sidebar-copy">Restaurant operations dashboard.</p>
+                </div>
+
+                <nav class="sidebar-nav">
+                    <button class="nav-link active" data-view="overview">Dashboard</button>
+                    <button class="nav-link admin-only" data-view="users">Users</button>
+                    <button class="nav-link admin-only" data-view="menu">Menu</button>
+                    <button class="nav-link admin-only" data-view="tables">Tables</button>
+                    <button class="nav-link" data-view="service">Service</button>
+                    <button class="nav-link non-waiter-only" data-view="orders">Orders</button>
+                </nav>
+
+                <div class="sidebar-actions">
+                    <button id="refreshAllBtn" class="secondary sidebar-refresh">Refresh Data</button>
+                    <button id="logoutBtn" class="secondary sidebar-refresh">Logout</button>
+                </div>
+            </aside>
+
+            <section class="content-shell">
+                <header class="topbar">
+                    <div>
+                        <p class="section-tag">Workspace</p>
+                        <h2 id="viewTitle">Dashboard</h2>
+                    </div>
+                    <div class="topbar-badges">
+                        <span class="pill" id="headerRoleBadge">Role</span>
+                        <button id="topLogoutBtn" class="secondary">Logout</button>
+                    </div>
+                </header>
+
+                <section id="view-overview" class="view-panel active-view">
+                    <section class="stats-grid">
+                        <article class="stat-card"><span>Tables</span><strong id="statTables">0</strong></article>
+                        <article class="stat-card"><span>Menu Items</span><strong id="statProducts">0</strong></article>
+                        <article class="stat-card"><span>Open Orders</span><strong id="statOrders">0</strong></article>
+                        <article class="stat-card admin-only"><span>Users</span><strong id="statUsers">0</strong></article>
+                    </section>
+
+                    <section class="content-grid two admin-only">
+                        <article class="panel">
+                            <div class="panel-heading">
+                                <div><p class="section-tag">Daily Sales</p><h3>Waiter revenue - last 24 hours</h3></div>
+                                <span id="dailySalesTotal" class="pill">$0.00</span>
+                            </div>
+                            <div id="dailySalesList" class="sales-grid"></div>
+                        </article>
+                        <article class="panel">
+                            <div class="panel-heading">
+                                <div><p class="section-tag">Monthly Sales</p><h3>Waiter revenue - current month</h3></div>
+                                <span id="monthlySalesTotal" class="pill">$0.00</span>
+                            </div>
+                            <div id="monthlySalesList" class="sales-grid"></div>
+                        </article>
+                    </section>
+
+                    <section class="content-grid two">
+                        <article class="panel">
+                            <div class="panel-heading"><div><p class="section-tag">Floor</p><h3>Assigned tables</h3></div></div>
+                            <div id="waiterTablesList" class="table-grid"></div>
+                        </article>
+                        <article class="panel">
+                            <div class="panel-heading"><div><p class="section-tag">Menu</p><h3>Active restaurant menu</h3></div></div>
+                            <div id="publicMenuTabs" class="service-category-tabs"></div>
+                            <div id="publicMenuList" class="menu-grid"></div>
+                        </article>
+                    </section>
+                </section>
+
+                <section id="view-users" class="view-panel admin-only">
+                    <section class="content-grid two">
+                        <article class="panel">
+                            <div class="panel-heading"><div><p class="section-tag">Admin</p><h3>Create team member</h3></div></div>
+                            <form id="userForm" class="stack-form">
+                                <label>Name<input id="userName" required></label>
+                                <label>Username<input id="userUsername" required></label>
+                                <label>Password<input id="userPassword" type="password" required></label>
+                                <label>Role
+                                    <select id="userRole">
+                                        <option value="Waiter">Waiter</option>
+                                        <option value="Cashier">Cashier</option>
+                                        <option value="Manager">Manager</option>
+                                    </select>
+                                </label>
+                                <button type="submit">Create User</button>
+                            </form>
+                            <p id="userMessage" class="feedback"></p>
+                        </article>
+                        <article class="panel">
+                            <div class="panel-heading"><div><p class="section-tag">Team</p><h3>Current users</h3></div></div>
+                            <div id="usersList" class="list-grid"></div>
+                        </article>
+                    </section>
+                </section>
+
+                <section id="view-menu" class="view-panel admin-only">
+                    <section class="content-grid two">
+                        <article class="panel">
+                            <div class="panel-heading">
+                                <div><p class="section-tag">Admin</p><h3>Menu editor</h3></div>
+                                <button id="resetProductFormBtn" class="secondary">New Item</button>
+                            </div>
+                            <form id="productForm" class="stack-form">
+                                <input id="editingProductId" type="hidden">
+                                <label>Name<input id="productName" required></label>
+                                <label>Category<input id="productCategory" required></label>
+                                <label>Description<textarea id="productDescription" rows="3"></textarea></label>
+                                <label>Image URL<input id="productImageUrl" placeholder="https://..."></label>
+                                <div id="productImageDropzone" class="image-dropzone" tabindex="0">
+                                    <strong>Drag & drop image here</strong>
+                                    <span>or use Choose File below</span>
+                                </div>
+                                <div class="image-upload-panel">
+                                    <label>Upload Photo<input id="productImageFile" type="file" accept=".jpg,.jpeg,.png,.webp,image/*"></label>
+                                    <button id="uploadProductImageBtn" type="button" class="secondary">Upload Image</button>
+                                </div>
+                                <div id="productImagePreview" class="product-preview-card hidden"></div>
+                                <label>Price<input id="productPrice" type="number" min="0.01" step="0.01" required></label>
+                                <label class="toggle"><input id="productHasSizes" type="checkbox"><span>Enable sizes for this item</span></label>
+                                <section id="productSizesPanel" class="size-editor hidden">
+                                    <div class="size-editor-header">
+                                        <div>
+                                            <p class="section-tag">Sizes</p>
+                                            <h4>Standard pricing</h4>
+                                        </div>
+                                        <span class="pill muted">Pizza / Burger / Drinks</span>
+                                    </div>
+                                    <div class="size-input-grid">
+                                        <label>S Price<input id="productSizeS" type="number" min="0.01" step="0.01" placeholder="8.50"></label>
+                                        <label>M Price<input id="productSizeM" type="number" min="0.01" step="0.01" placeholder="9.50"></label>
+                                        <label>L Price<input id="productSizeL" type="number" min="0.01" step="0.01" placeholder="11.50"></label>
+                                    </div>
+                                </section>
+                                <label class="toggle"><input id="productActive" type="checkbox" checked><span>Visible on menu</span></label>
+                                <button type="submit">Save Menu Item</button>
+                            </form>
+                            <p id="productMessage" class="feedback"></p>
+                        </article>
+                        <article class="panel">
+                            <div class="panel-heading"><div><p class="section-tag">Menu</p><h3>All menu items</h3></div></div>
+                            <div id="adminProductsList" class="list-grid"></div>
+                        </article>
+                    </section>
+                </section>
+
+                <section id="view-tables" class="view-panel admin-only">
+                    <section class="content-grid two">
+                        <article class="panel">
+                            <div class="panel-heading"><div><p class="section-tag">Admin</p><h3>Create table</h3></div></div>
+                            <form id="tableForm" class="stack-form">
+                                <label>Table name<input id="tableName" required></label>
+                                <label>Seats<input id="tableSeats" type="number" min="1" max="20" value="4" required></label>
+                                <button type="submit">Add Table</button>
+                            </form>
+                            <p id="tableMessage" class="feedback"></p>
+                        </article>
+                        <article class="panel">
+                            <div class="panel-heading"><div><p class="section-tag">Floor</p><h3>Assign waiters</h3></div></div>
+                            <div id="adminTablesList" class="list-grid"></div>
+                        </article>
+                    </section>
+                </section>
+
+                <section id="view-service" class="view-panel">
+                    <section class="content-grid service-layout">
+                        <article class="panel waiter-floor-panel">
+                            <div class="panel-heading"><div><p class="section-tag">Waiter</p><h3>Select table</h3></div></div>
+                            <div id="serviceTablesList" class="table-grid"></div>
+                        </article>
+                        <article class="panel waiter-service-panel">
+                            <div class="waiter-service-header">
+                                <div>
+                                    <p class="section-tag">Waiter POS</p>
+                                    <h3>Build order</h3>
+                                    <p class="waiter-service-copy">Choose a category from the top bar, tap products to add them, then send the order to the admin and kitchen.</p>
+                                </div>
+                                <div class="waiter-service-badges">
+                                    <span id="serviceCategoryCount" class="pill muted">0 categories</span>
+                                    <span id="serviceLiveBadge" class="pill">Live service</span>
+                                </div>
+                            </div>
+                            <form id="orderForm" class="stack-form">
+                                <label class="hidden">Table<select id="tableSelect" required></select></label>
+                                <label>Guest notes<textarea id="orderNotes" rows="3" placeholder="Special requests, allergies, timing..."></textarea></label>
+                                <div id="selectedTableBanner" class="selected-table-banner">Choose a table to start taking the order.</div>
+                                <div id="serviceCategoryTabs" class="service-category-tabs"></div>
+                                <div id="productChecklist" class="menu-category-list"></div>
+                                <section class="cart-panel">
+                                    <div class="panel-heading">
+                                        <div><p class="section-tag">Cart</p><h3>Current order</h3></div>
+                                        <span id="cartCount" class="pill muted">0 items</span>
+                                    </div>
+                                    <div id="cartItems" class="cart-items"></div>
+                                    <div class="cart-footer">
+                                        <strong id="cartTotal">$0.00</strong>
+                                        <button type="submit">Place Order</button>
+                                    </div>
+                                </section>
+                            </form>
+                            <p id="orderMessage" class="feedback"></p>
+                        </article>
+                        <article class="panel">
+                            <div class="panel-heading"><div><p class="section-tag">My Orders</p><h3>Sent by this waiter</h3></div></div>
+                            <div id="waiterOrdersList" class="orders-grid"></div>
+                        </article>
+                    </section>
+                </section>
+
+                <section id="view-orders" class="view-panel">
+                    <article class="panel">
+                        <div class="panel-heading"><div><p class="section-tag">Live Orders</p><h3>Open tickets and billing</h3></div></div>
+                        <div id="ordersList" class="orders-grid"></div>
+                        <p id="receiptMessage" class="feedback"></p>
+                    </article>
+                </section>
+            </section>
+        </section>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>

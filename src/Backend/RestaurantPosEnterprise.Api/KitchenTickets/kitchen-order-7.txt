@@ -1,0 +1,9 @@
+FAVELLA KITCHEN TICKET
+======================
+Order: #7
+Table: Table 2
+Waiter: Floor Waiter
+Created (UTC): 2026-03-23 17:33:17
+Notes: test from waiter
+----------------------
+Fresh Lemonade x1

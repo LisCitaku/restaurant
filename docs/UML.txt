@@ -1,0 +1,19 @@
+CLASS DIAGRAM
+
+Order
+- Id
+- TableId
+- CreatedAt
+
+OrderItem
+- Id
+- ProductId
+- Quantity
+
+Product
+- Id
+- Name
+- Price
+
+SEQUENCE:
+Waiter -> Frontend -> API -> DB -> Printer

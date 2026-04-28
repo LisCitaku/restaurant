@@ -1,0 +1,9 @@
+FAVELLA KITCHEN TICKET
+======================
+Order: #6
+Table: drenica
+Waiter: halit
+Created (UTC): 2026-03-23 17:31:48
+Notes: 
+----------------------
+Chocolate Cake x2

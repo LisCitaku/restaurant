@@ -1,0 +1,19 @@
+@RestaurantPosEnterprise.Api_HostAddress = https://localhost:7116
+
+### Login as waiter
+POST {{RestaurantPosEnterprise.Api_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "waiter",
+  "password": "waiter123"
+}
+
+### Login as cashier
+POST {{RestaurantPosEnterprise.Api_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "cashier",
+  "password": "cashier123"
+}

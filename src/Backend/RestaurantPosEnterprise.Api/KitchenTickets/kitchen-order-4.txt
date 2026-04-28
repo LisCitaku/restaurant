@@ -1,0 +1,10 @@
+FAVELLA KITCHEN TICKET
+======================
+Order: #4
+Table: 2
+Waiter: halit
+Created (UTC): 2026-03-23 17:18:13
+Notes: 
+----------------------
+Chocolate Cake x4
+Fresh Lemonade x3

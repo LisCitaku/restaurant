@@ -1,0 +1,6 @@
+TABLES:
+Users(Id, Name, Role)
+Tables(Id, Name, Status)
+Products(Id, Name, Price)
+Orders(Id, TableId)
+OrderItems(Id, OrderId, ProductId, Quantity)
